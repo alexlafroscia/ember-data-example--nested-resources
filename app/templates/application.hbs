@@ -1,5 +1,25 @@
-{{!-- The following component displays Ember's default welcome message. --}}
-<WelcomePage />
-{{!-- Feel free to remove this! --}}
+<h1>
+  {{this.model.name}}
+</h1>
 
-{{outlet}}
+<p>
+  {{this.model.body}}
+</p>
+
+{{#if this.comments}}
+  <ul>
+    {{#each this.comments as |comment|}}
+      <li>
+        {{comment.body}}
+      </li>
+    {{/each}}
+  </ul>
+{{else if this.loadComments.isRunning}}
+  <p>
+    Loading comments...
+  </p>
+{{else}}
+  <button type="button" {{on "click" (perform this.loadComments)}}>
+    Load Comments
+  </button>
+{{/if}}
