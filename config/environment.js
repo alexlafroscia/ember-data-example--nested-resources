@@ -45,6 +45,9 @@ module.exports = function (environment) {
 
   if (environment === "production") {
     ENV.rootURL = "/ember-data-example--nested-resources";
+    ENV["ember-cli-mirage"] = {
+      enabled: true,
+    };
   }
 
   return ENV;
