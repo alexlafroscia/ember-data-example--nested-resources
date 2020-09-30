@@ -1,58 +1,17 @@
 # ember-data-load-resources
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+This repo contains an example Ember and Ember Data application that is configured to load a model's relationship from a nested API endpoint. This isn't _totally_ clear how to do from Ember's documentation, but can in fact be done (and pretty easily, it turns out, too!).
 
-## Prerequisites
+There are two models here: [`Post`](./app/models/post.js) and [`Comment`](./app/models/comment.js).
 
-You will need the following things properly installed on your computer.
+In a typical set-up, when you load the comments for a `Post`, Ember Data will attempt to load every individual `Comment` record one at a time from the API endpoint used for `findRecord`. The number of API requests will scale with the number of comments. Not good!
 
-* [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/)
-* [Yarn](https://yarnpkg.com/)
-* [Ember CLI](https://ember-cli.com/)
-* [Google Chrome](https://google.com/chrome/)
+The key here is to define the ["related resource link"](https://jsonapi.org/format/#document-resource-object-related-resource-links) per the JSON:API specification. This will instruct Ember Data _not_ to use `N` calls to `findRecord` to load the related records. Instead, the API endpoint defined as the "related" link will be used instead!
 
-## Installation
+## Demo Site
 
-* `git clone <repository-url>` this repository
-* `cd ember-data-load-resources`
-* `yarn install`
+The application itself is deployed to GitHub Pages and can be viewed here:
 
-## Running / Development
+https://alexlafroscia.github.io/ember-data-example--nested-resources/
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
-* Visit your tests at [http://localhost:4200/tests](http://localhost:4200/tests).
-
-### Code Generators
-
-Make use of the many generators for code, try `ember help generate` for more details
-
-### Running Tests
-
-* `ember test`
-* `ember test --server`
-
-### Linting
-
-* `yarn lint:hbs`
-* `yarn lint:js`
-* `yarn lint:js --fix`
-
-### Building
-
-* `ember build` (development)
-* `ember build --environment production` (production)
-
-### Deploying
-
-Specify what it takes to deploy your app.
-
-## Further Reading / Useful Links
-
-* [ember.js](https://emberjs.com/)
-* [ember-cli](https://ember-cli.com/)
-* Development Browser Extensions
-  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
-  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
+It's recommended that you view it with the JS console open, so that you can view the debugging log from [Mirage](https://miragejs.com/), which serves as our faux API. This helps to illustrate what API calls are being made and what the responses from the API should look like.
